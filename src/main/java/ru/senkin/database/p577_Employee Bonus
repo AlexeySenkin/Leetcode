@@ -1,0 +1,9 @@
+/* Write your T-SQL query statement below */
+with emp AS (
+select e.name,  b.bonus
+from employee e left join bonus b ON b.empId = e.empId
+)
+select *
+from emp
+where bonus < 1000 or bonus is null
+order by bonus

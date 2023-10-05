@@ -1,0 +1,22 @@
+177. Nth Highest Salary
+
+CREATE FUNCTION getNthHighestSalary(@N INT) RETURNS INT AS
+BEGIN
+    --RETURN (
+        BEGIN
+        /* Write your T-SQL query statement below. */
+            DECLARE @RES INT;
+            WITH sal_dist AS (
+                select distinct salary from employee
+            )
+            ,sal AS (
+                SELECT RANK() OVER (ORDER BY salary DESC) AS [sort], salary FROM sal_dist
+            )
+            select @RES = salary
+            from sal
+            where sort = @N;
+
+            RETURN @RES;
+        END;
+    --);
+END

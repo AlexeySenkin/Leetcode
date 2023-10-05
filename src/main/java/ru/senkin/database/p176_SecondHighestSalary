@@ -1,0 +1,9 @@
+/* Write your T-SQL query statement below */
+IF
+  (select count(*) from (select distinct salary from Employee) AS temp) = 1
+   SELECT NULL AS [SecondHighestSalary]
+ELSE
+SELECT TOP 1 e.salary AS [SecondHighestSalary]
+  FROM Employee e
+  WHERE salary <> (SELECT max(salary) FROM Employee)
+  ORDER BY e.salary DESC  ;

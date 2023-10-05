@@ -1,4 +1,4 @@
-package ru.senkin.add_two_numbers;
+package ru.senkin.algorithms.p2_addTwoNumbers;
 
 public class ListNode {
     int val;

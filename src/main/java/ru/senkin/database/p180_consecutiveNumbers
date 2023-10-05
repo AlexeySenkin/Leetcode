@@ -1,0 +1,15 @@
+180. Consecutive Numbers
+
+with three_times AS (
+    select
+        num, count(*) as cnt
+    from Logs
+    group by num
+    having count(*)>=3
+), logs_t AS (
+    select * from logs where num IN (select num from three_times)
+)
+select distinct t1.num as [ConsecutiveNums]
+from logs_t t1
+    inner join logs_t t2 ON t2.id=t1.id + 1 AND t2.num = t1.num
+    inner join logs_t t3 ON t3.id=t1.id + 2 AND t3.num = t1.num

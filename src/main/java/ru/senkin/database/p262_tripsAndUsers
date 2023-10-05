@@ -1,0 +1,19 @@
+262. Trips And Users
+
+/* Write your T-SQL query statement below */
+WITH client_unbanned AS (
+    SELECT * FROM users u WHERE u.role IN ('client') AND u.banned = 'No'
+), driver_unbanned AS (
+    SELECT * FROM users u WHERE u.role IN ('driver') AND u.banned = 'No'
+), trips_unbanned AS (
+    SELECT t.status, t.request_at
+    FROM trips t
+        INNER JOIN client_unbanned c ON c.users_id = t.client_id
+        INNER JOIN driver_unbanned d ON d.users_id = t.driver_id
+    WHERE t.request_at BETWEEN CONVERT(date,'2013-10-01',23) AND CONVERT(date,'2013-10-03',23)
+ )
+SELECT t.request_at AS [Day],
+    ROUND(CAST(SUM(CASE WHEN t.status LIKE '%cancelled%' THEN 1 ELSE 0 END) AS float) /  COUNT(*),2) AS [Cancellation Rate]
+FROM trips_unbanned t
+GROUP BY t.request_at
+ORDER BY 1;
