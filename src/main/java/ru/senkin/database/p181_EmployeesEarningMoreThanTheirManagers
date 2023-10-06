@@ -1,0 +1,8 @@
+/* Write your T-SQL query statement below */
+SELECT ee.name AS [Employee]
+FROM Employee ee
+WHERE ee.salary > (
+    SELECT salary
+    FROM Employee em
+    WHERE em.id = ee.managerId
+    );

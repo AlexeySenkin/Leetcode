@@ -1,0 +1,15 @@
+/* Write your T-SQL query statement below */
+WITH player_first_day AS
+(
+    select player_id, min(event_date) AS [first_day]
+    from Activity
+    group by player_id
+), player_two_day AS (
+    select a.*
+    from Activity a
+        inner join player_first_day p ON p.player_id = a.player_id AND p.first_day = a.event_date
+        inner join Activity a2 ON a2.player_id = a.player_id AND a2.event_date = DATEADD(day,1,a.event_date)
+)
+select ROUND(SUM(CASE WHEN t.player_id IS NOT NULL THEN 1.0 ELSE 0.0 END) / COUNT(*), 2) AS [fraction]
+from player_first_day f
+    LEFT JOIN player_two_day t ON t.player_id = f.player_id

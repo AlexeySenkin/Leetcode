@@ -1,0 +1,11 @@
+/* Write your T-SQL query statement below */
+WITH dep_max_sal AS (
+    SELECT d.id, MAX(e.Salary) AS [max_salary]
+    FROM Department d
+        INNER JOIN Employee e ON d.id = e.departmentId
+    GROUP BY d.id
+)
+SELECT DISTINCT d.name AS [Department], e.name AS [Employee], e.Salary
+FROM Employee e
+    INNER JOIN Department d ON d.id = e.departmentId
+WHERE e.salary = (SELECT max_salary FROM dep_max_sal WHERE id = d.id)

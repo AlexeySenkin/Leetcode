@@ -1,0 +1,20 @@
+/* Write your T-SQL query statement below */
+WITH first_deliv AS (
+    SELECT customer_id, MIN(order_date) AS [min_order_date]
+    FROM Delivery
+    GROUP BY customer_id
+)
+select
+    ROUND(
+        SUM(CASE WHEN d.order_date = fd.min_order_date AND
+        d.order_date = d.customer_pref_delivery_date THEN 1.0 ELSE 0 END) /
+
+        SUM(CASE WHEN d.order_date = fd.min_order_date
+        THEN 1.0 ELSE 0 END)
+         * 100,2) AS immediate_percentage
+    -- SUM(CASE WHEN d.order_date = fd.min_order_date AND
+    --     d.order_date = d.customer_pref_delivery_date THEN 1.0 ELSE 0 END) AS [t1],
+    -- SUM(CASE WHEN d.order_date = fd.min_order_date AND
+    --     d.order_date <> d.customer_pref_delivery_date THEN 1.0 ELSE 0 END) AS [t2]
+from Delivery d
+    inner join first_deliv fd ON fd.customer_id = d.customer_id

@@ -1,0 +1,8 @@
+WITH duplicate AS (
+    SELECT DISTINCT p1.id
+    FROM person p1
+        INNER JOIN person p2 ON p2.email = p1.email AND p2.id < p1.id
+)
+DELETE
+FROM person
+WHERE id IN (SELECT id FROM duplicate)

@@ -1,0 +1,14 @@
+/* Write your T-SQL query statement below */
+WITH dep_max_sal AS (
+    SELECT d.id, e.Salary AS [salary],
+        DENSE_RANK() OVER(PARTITION BY d.id ORDER BY e.salary DESC) AS [rank_salary]
+    FROM Department d
+        INNER JOIN Employee e ON d.id = e.departmentId
+)
+SELECT d.name AS [Department], e.name AS [Employee], e.Salary
+FROM Employee e
+    INNER JOIN Department d ON d.id = e.departmentId
+WHERE e.salary IN (
+    SELECT salary
+    FROM dep_max_sal
+    WHERE id = d.id AND rank_salary <= 3)

@@ -1,0 +1,10 @@
+/* Write your T-SQL query statement below */
+WITH Activities_un AS (
+    SELECT DISTINCT *
+    FROM Activities
+)
+SELECT DISTINCT sell_date, COUNT(*) AS [num_sold],
+    STRING_AGG(product,',') AS [products]
+FROM Activities_un
+GROUP BY sell_date
+ORDER BY 1

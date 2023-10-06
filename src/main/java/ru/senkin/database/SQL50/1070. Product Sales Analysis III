@@ -1,0 +1,11 @@
+/* Write your T-SQL query statement below */
+WITH first_year AS (
+    select p.product_id, min(year) AS [first_year]
+    from Product p
+        inner join Sales s ON s.product_id = p.product_id
+    group by p.product_id
+)
+select p.product_id, f.first_year, s.quantity, s.price
+from Product p
+    inner join first_year f ON f.product_id = p.product_id
+    inner join  Sales s ON f.product_id = s.product_id AND f.first_year = s.year

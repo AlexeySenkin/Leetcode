@@ -1,0 +1,10 @@
+/* Write your T-SQL query statement below */
+WITH man_cnt AS (
+    SELECT e1.id, e1.name, count(*) AS [cnt]
+    FROM Employee e1
+        INNER JOIN Employee e2 ON  e2.managerId = e1.id
+    GROUP BY e1.id, e1.name
+)
+select name
+from man_cnt
+where cnt>=5
