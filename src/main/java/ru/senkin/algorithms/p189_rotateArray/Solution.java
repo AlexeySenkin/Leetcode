@@ -6,11 +6,29 @@ public class Solution {
     }
 
     public void rotate(int[] nums, int k) {
-        int num;
-        int nk = k % nums.length;
-        System.out.println(nums.length);
-        System.out.println(nk);
+//        int num;
+        int nk;
+        if (nums.length != 1) {
+            if (k > nums.length)  {
+                nk = k % (nums.length);
+            } else {
+                nk = k;
+            }
 
+        } else {
+            return;
+        }
+
+        int[] numsTemp = new int[nums.length];
+        for (int i = 0; i < nk; i++) {
+            numsTemp[i] = nums[i + nums.length - nk];
+        }
+        for (int i = 0; i < numsTemp.length - nk; i++) {
+            numsTemp[nk+i] = nums[i];
+        }
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = numsTemp[i];
+        }
 
 //        for (int i = 1; i <= nk; i++) {
 //            num = nums[nums.length - 1];
@@ -21,21 +39,7 @@ public class Solution {
 //        }
 
 
-        for (int i = 0; i < nk; i++) {
-            num = nums[i];
-            nums[i] = nums[i + nk];
-            nums[i + nk] = num;
-        }
-        if (nk < nums.length / 2) {
-            num = nums[nk];
-            for (int i = nk; i < nums.length - 1; i++) {
-                nums[i] = nums[i + 1];
-            }
-            nums[nums.length - 1] = num;
-        }
-
-
-
+        System.out.println(nums[0]);
 
 
     }
