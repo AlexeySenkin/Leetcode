@@ -7,6 +7,6 @@ public class Main {
         int[]  num = {1,2};
 
         int k = 3;
-        solution.rotate(num, k);
+        solution.rotate( num, k);
     }
 }
