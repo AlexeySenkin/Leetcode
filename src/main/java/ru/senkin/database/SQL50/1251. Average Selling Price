@@ -1,0 +1,11 @@
+/* Write your T-SQL query statement below */
+select p.product_id,
+    CASE WHEN ROUND(CONVERT(float,SUM(p.price * us.units))
+        / CONVERT(float,SUM(us.units)),2) IS NULL THEN 0
+        ELSE ROUND(CONVERT(float,SUM(p.price * us.units))
+        / CONVERT(float,SUM(us.units)),2) END AS average_price
+
+from prices p
+    left join unitssold us ON p.product_id = us.product_id AND us.purchase_date between p.start_date AND p.end_date
+group by  p.product_id
+order by 1

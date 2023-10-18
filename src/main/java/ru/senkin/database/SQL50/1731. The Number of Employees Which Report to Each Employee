@@ -1,0 +1,8 @@
+/* Write your T-SQL query statement below */
+select e.employee_id, e.name,
+    count(er.employee_id) as reports_count,
+    ROUND(AVG(er.age*1.0),0) as average_age
+from Employees e
+    inner join Employees er On e.employee_id = er.reports_to
+group by e.employee_id, e.name
+order by 1;
